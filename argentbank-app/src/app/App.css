@@ -54,6 +54,7 @@ body {
 .main-nav-item {
   text-decoration: none;
   margin-right: 0.5rem;
+  margin-left: 5px;
 }
 
 .main-nav-item:hover {
@@ -320,3 +321,22 @@ body {
   text-decoration: underline;
   font-size: 18px;
 }
+
+.button-like-link {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  margin-right: 0.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-left: 5px;
+}
+
+.button-like-link:hover {
+  text-decoration: underline;
+}
+
