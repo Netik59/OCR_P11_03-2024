@@ -340,3 +340,18 @@ body {
   text-decoration: underline;
 }
 
+.error-message {
+  background-color: #FF6666;
+  margin-bottom: 15px;
+  padding: 4px;
+}
+
+.error-message span {
+  font-weight: bold;
+  color: black;
+}
+
+.user {
+  margin-right: 20px;
+}
+

@@ -32,6 +32,10 @@ export const Header = () => {
 
                 {window.location.pathname === '/user' ?
                     <>
+                        <FontAwesomeIcon className="fa fa-user-circle" icon={faUserCircle} />
+                        <button className="button-like-link user" onClick={onClick}>
+                            Tony
+                        </button>
                         <FontAwesomeIcon className="fa fa-sign-out" icon={faSignOut} />
                         <button className="button-like-link" onClick={onClick}>
                             Sign Out

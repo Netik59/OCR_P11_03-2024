@@ -27,6 +27,7 @@ export const loginAsync = createAsyncThunk(
 
             if (response.ok) {
                 const data = await response.json();
+                localStorage.setItem('token', data.body.token);
                 return data;
             } else {
                 throw new Error('Échec de la connexion.');
@@ -40,7 +41,7 @@ export const loginAsync = createAsyncThunk(
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        token: null,
+        token: localStorage.getItem('token') || null,
         connected: false,
         error: null
     },
@@ -50,6 +51,7 @@ export const authSlice = createSlice({
             return { ...currentState, owner }
         },
         logout: () => {
+            localStorage.removeItem('token');
             return { token: null, connected: false, error: null }
         },
     },

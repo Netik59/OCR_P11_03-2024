@@ -1,18 +1,16 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 
 export const User = () => {
 
     const navigate = useNavigate();
-    const authState = useSelector((state) => state.auth)
-
+    const token = localStorage.getItem('token')
 
     useEffect(() => {
-        if (authState.token === null) {
-            navigate("/");
+        if (!token) {
+            navigate("/sign-in");
         }
-    }, [authState.token, navigate]);
+    }, [token, navigate]);
 
     return (
         <main className="main bg-dark">

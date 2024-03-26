@@ -8,16 +8,18 @@ import { useNavigate } from "react-router-dom";
 export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const authState = useSelector((state) => state.auth)
     console.log(authState)
+    const token = localStorage.getItem('token')
 
     useEffect(() => {
-        if (authState.token !== null) {
+        if (token) {
             navigate("/user");
         }
-    }, [authState.token, navigate]);
+    }, [token, navigate]);
 
 
     const handleEmailChange = (e) => {
@@ -28,10 +30,20 @@ export const Login = () => {
         setPassword(e.target.value)
     };
 
-
+    const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
 
     const onSubmit = (e) => {
         e.preventDefault();
+
+        if (!validateEmail(email)) {
+            setErrorMessage("Adresse e-mail invalide");
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 5000);
+            return;
+        }
 
         console.log("email:", email);
         console.log("Password:", password);
@@ -48,6 +60,11 @@ export const Login = () => {
                 <section className="sign-in-content">
                     <FontAwesomeIcon className="fa fa-user-circle" icon={faUserCircle} />
                     <h1>Sign In</h1>
+                    {errorMessage && (
+                        <div className="error-message">
+                            <span>{errorMessage}</span>
+                        </div>
+                    )}
                     <form>
                         <div className="input-wrapper">
                             <label htmlFor="email">Email</label>
