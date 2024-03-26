@@ -177,7 +177,7 @@ body {
 
 .dark-background {
   background-color: #12002b;
-  padding-top: 3rem;
+  padding: 3rem 0;
 }
 
 .sign-in-icon {
@@ -355,3 +355,35 @@ body {
   margin-right: 20px;
 }
 
+.edit-name-content {
+  box-sizing: border-box;
+  background-color: white;
+  width: 430px;
+  margin: 20px auto;
+  padding: 2rem;
+}
+
+.edit-label {
+  color: black;
+  margin-right: 20px;
+}
+
+
+.edit-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.saveAndCancel {
+  width: 130px;
+}
+
+.edit-name-content input {
+  margin-bottom: 30px;
+}
+
+.edit-title {
+  color: black;
+  font-size: 30px;
+}

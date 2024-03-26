@@ -11,6 +11,8 @@ export const Header = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
+
+
     const onClick = (e) => {
         e.preventDefault();
         dispatch(authSlice.actions.logout())
@@ -30,12 +32,12 @@ export const Header = () => {
             <h1 className="sr-only">Argent Bank</h1>
             <div>
 
-                {window.location.pathname === '/user' ?
+                {location.pathname.startsWith('/user') ?
                     <>
                         <FontAwesomeIcon className="fa fa-user-circle" icon={faUserCircle} />
-                        <button className="button-like-link user" onClick={onClick}>
+                        <Link className="button-like-link user" to="/user">
                             Tony
-                        </button>
+                        </Link>
                         <FontAwesomeIcon className="fa fa-sign-out" icon={faSignOut} />
                         <button className="button-like-link" onClick={onClick}>
                             Sign Out
