@@ -38,18 +38,39 @@ export const loginAsync = createAsyncThunk(
     }
 );
 
+export const updateUserNameAsync = createAsyncThunk(
+    'update',
+    async ({ userName }) => {
+        try {
+            const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+                method: 'PUT',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify({ userName })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(`Le changement du nom d'utilisateur n'a pas pu aboutir.`);
+            }
+        } catch (error) {
+            throw new Error('Erreur lors de la connexion :' + error.message);
+        }
+    }
+)
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
         token: localStorage.getItem('token') || null,
         connected: false,
-        error: null
+        error: null,
+        userName: ""
     },
     reducers: {
-        updateFirstName: (currentState, action) => {
-            const owner = { ...currentState.owner, firstName: action.payload }
-            return { ...currentState, owner }
-        },
         logout: () => {
             localStorage.removeItem('token');
             return { token: null, connected: false, error: null }
@@ -62,6 +83,13 @@ export const authSlice = createSlice({
                 state.token = action.payload.body.token;
             })
             .addCase(loginAsync.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
+            .addCase(updateUserNameAsync.fulfilled, (state, action) => {
+                console.log("Changement effectué")
+                state.userName = action.payload.body.userName;
+            })
+            .addCase(updateUserNameAsync.rejected, (state, action) => {
                 state.error = action.error.message;
             });
     }

@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserNameAsync } from "../../features/authSlice";
 
 export const User = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const token = localStorage.getItem('token')
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [userName, setUserName] = useState('');
@@ -14,9 +17,24 @@ export const User = () => {
         }
     }, [token, navigate]);
 
-    const onClick = (e) => {
-        e.preventDefault();
-        setIsFormOpen(!isFormOpen);
+    const onClickEdit = () => {
+        setIsFormOpen(true);
+    };
+
+    const onCancel = () => {
+        setIsFormOpen(false);
+    };
+
+
+    const handleUsernameChange = (e) => {
+        setUserName(e.target.value)
+    };
+
+
+    const onSave = () => {
+        dispatch(updateUserNameAsync({
+            userName: userName
+        }))
     }
 
     return (
@@ -24,7 +42,9 @@ export const User = () => {
             <div className="dark-background">
                 <div className="header">
                     <h1>Welcome back<br />Tony Jarvis!</h1>
-                    <button className="edit-button" onClick={onClick}>Edit Name</button>
+                    {!isFormOpen && (
+                        <button className="edit-button" onClick={onClickEdit}>Edit Name</button>
+                    )}
                     {isFormOpen && (
                         <div className="edit-name-content">
                             <p className="edit-title">Edit User info</p>
@@ -32,13 +52,17 @@ export const User = () => {
                                 <div>
                                     <label htmlFor="username" className="edit-label">User name:</label>
                                     <input
+                                        className="inputText"
                                         type="text"
                                         id="username"
+                                        value={userName}
+                                        onChange={handleUsernameChange}
                                     />
                                 </div>
                                 <div>
                                     <label htmlFor="firstname" className="edit-label">First name:</label>
                                     <input
+                                        className="readOnly inputText"
                                         type="text"
                                         id="firstname"
                                         value={"Tony"}
@@ -48,6 +72,7 @@ export const User = () => {
                                 <div>
                                     <label htmlFor="lastname" className="edit-label">Last name:</label>
                                     <input
+                                        className="readOnly inputText"
                                         type="text"
                                         id="lastname"
                                         value={"Jarvis"}
@@ -56,8 +81,8 @@ export const User = () => {
                                 </div>
 
                                 <div className="edit-buttons">
-                                    <button type="button" className="edit-button saveAndCancel">Save</button>
-                                    <button type="button" className="edit-button saveAndCancel">Cancel</button>
+                                    <button type="button" className="edit-button saveAndCancel" onClick={onSave}>Save</button>
+                                    <button type="button" className="edit-button saveAndCancel" onClick={onCancel}>Cancel</button>
                                 </div>
                             </form>
                         </div>

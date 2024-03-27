@@ -387,3 +387,14 @@ body {
   color: black;
   font-size: 30px;
 }
+
+.inputText {
+  border-color: #c4c4c4;
+  border-top: 1px solid #c4c4c4;
+  border-left: 1px solid #c4c4c4;
+  border-radius: 7px;
+}
+
+.readOnly {
+  background-color: #e7e7e7;
+}
