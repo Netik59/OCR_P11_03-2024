@@ -57,7 +57,30 @@ export const updateUserNameAsync = createAsyncThunk(
                 throw new Error(`Le changement du nom d'utilisateur n'a pas pu aboutir.`);
             }
         } catch (error) {
-            throw new Error('Erreur lors de la connexion :' + error.message);
+            throw new Error('Erreur lors de la modification du userName :' + error.message);
+        }
+    }
+)
+
+export const getUserProfileAsync = createAsyncThunk(
+    'getUserProfile',
+    async () => {
+        try {
+            const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(`La récupération des données de l'utilisateur n'a pas pu aboutir.`);
+            }
+        } catch (error) {
+            throw new Error('Erreur lors de la récupération :' + error.message);
         }
     }
 )
@@ -68,12 +91,13 @@ export const authSlice = createSlice({
         token: localStorage.getItem('token') || null,
         connected: false,
         error: null,
-        userName: ""
+        userProfile: JSON.parse(localStorage.getItem('userProfile')) || null
     },
     reducers: {
         logout: () => {
             localStorage.removeItem('token');
-            return { token: null, connected: false, error: null }
+            localStorage.removeItem('userProfile');
+            return { token: null, connected: false, error: null, userProfile: null }
         },
     },
     extraReducers: (builder) => {
@@ -87,9 +111,15 @@ export const authSlice = createSlice({
             })
             .addCase(updateUserNameAsync.fulfilled, (state, action) => {
                 console.log("Changement effectué")
-                state.userName = action.payload.body.userName;
             })
             .addCase(updateUserNameAsync.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
+            .addCase(getUserProfileAsync.fulfilled, (state, action) => {
+                state.userProfile = action.payload.body;
+                localStorage.setItem('userProfile', JSON.stringify(action.payload.body));
+            })
+            .addCase(getUserProfileAsync.rejected, (state, action) => {
                 state.error = action.error.message;
             });
     }

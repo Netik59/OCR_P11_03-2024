@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserNameAsync } from "../../features/authSlice";
+import { updateUserNameAsync, getUserProfileAsync } from "../../features/authSlice";
 
 export const User = () => {
 
@@ -11,11 +11,20 @@ export const User = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [userName, setUserName] = useState('');
 
+
     useEffect(() => {
         if (!token) {
             navigate("/sign-in");
+        } else {
+            dispatch(getUserProfileAsync())
         }
-    }, [token, navigate]);
+    }, [token, navigate, dispatch]);
+
+
+    const userProfile = useSelector((state) => state.auth.userProfile);
+
+    console.log(userProfile)
+
 
     const onClickEdit = () => {
         setIsFormOpen(true);
@@ -41,7 +50,7 @@ export const User = () => {
         <main className="main bg-dark">
             <div className="dark-background">
                 <div className="header">
-                    <h1>Welcome back<br />Tony Jarvis!</h1>
+                    <h1>Welcome back<br />{userProfile && userProfile.firstName} {userProfile && userProfile.lastName}!</h1>
                     {!isFormOpen && (
                         <button className="edit-button" onClick={onClickEdit}>Edit Name</button>
                     )}
@@ -50,7 +59,7 @@ export const User = () => {
                             <p className="edit-title">Edit User info</p>
                             <form className="input-wrapper">
                                 <div>
-                                    <label htmlFor="username" className="edit-label">User name:</label>
+                                    <label htmlFor="username" className="edit-label">UserName:</label>
                                     <input
                                         className="inputText"
                                         type="text"
@@ -65,7 +74,7 @@ export const User = () => {
                                         className="readOnly inputText"
                                         type="text"
                                         id="firstname"
-                                        value={"Tony"}
+                                        value={userProfile.firstName}
                                         readOnly
                                     />
                                 </div>
@@ -75,7 +84,7 @@ export const User = () => {
                                         className="readOnly inputText"
                                         type="text"
                                         id="lastname"
-                                        value={"Jarvis"}
+                                        value={userProfile.lastName}
                                         readOnly
                                     />
                                 </div>

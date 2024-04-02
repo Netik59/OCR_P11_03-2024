@@ -2,15 +2,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import argentBankLogo from '../../img/argentBankLogo.png';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authSlice } from "../../features/authSlice"
 import { useNavigate } from "react-router-dom";
+import { getUserProfileAsync } from "../../features/authSlice";
+import { useEffect } from 'react';
 
 export const Header = () => {
 
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
+
+    const auth = useSelector((state) => state.auth);
+
+    const userProfile = auth.userProfile
+
+    useEffect(() => {
+        if (auth.connected === true) {
+            dispatch(getUserProfileAsync())
+        }
+    }, [dispatch]);
 
 
     const onClick = (e) => {
@@ -36,7 +48,7 @@ export const Header = () => {
                     <>
                         <FontAwesomeIcon className="fa fa-user-circle" icon={faUserCircle} />
                         <Link className="button-like-link user" to="/user">
-                            Tony
+                            {userProfile && userProfile.userName}
                         </Link>
                         <FontAwesomeIcon className="fa fa-sign-out" icon={faSignOut} />
                         <button className="button-like-link" onClick={onClick}>
