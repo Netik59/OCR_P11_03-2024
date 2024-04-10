@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
-import argentBankLogo from '../../img/argentBankLogo.png';
+import argentBankLogo from '../../img/argentBankLogo.webp';
 import { useDispatch, useSelector } from "react-redux";
 import { authSlice } from "../../features/authSlice"
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ export const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const auth = useSelector((state) => state.auth);
+    const auth = useSelector((state) => state.auth)
 
     const userProfile = auth.userProfile
 
@@ -22,7 +22,7 @@ export const Header = () => {
         if (auth.connected === true) {
             dispatch(getUserProfileAsync())
         }
-    }, [dispatch]);
+    }, [dispatch, auth.connected]);
 
 
     const onClick = (e) => {

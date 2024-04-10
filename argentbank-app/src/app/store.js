@@ -6,7 +6,8 @@ const state = {
     auth: {
         token: null,
         connected: false,
-        userName: ""
+        userName: "",
+        isChecked: null,
     },
 }
 

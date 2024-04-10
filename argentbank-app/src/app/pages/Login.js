@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { loginAsync } from "../../features/authSlice";
+import { authSlice, loginAsync } from "../../features/authSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from "react";
@@ -15,6 +15,8 @@ export const Login = () => {
     console.log(authState)
     const token = localStorage.getItem('token')
 
+    const isChecked = authState.isChecked
+
     useEffect(() => {
         if (token) {
             navigate("/user");
@@ -29,6 +31,13 @@ export const Login = () => {
     const handlePasswordChange = (e) => {
         setPassword(e.target.value)
     };
+
+    const handleCheckboxChange = () => {
+        dispatch(authSlice.actions.toggleCheckbox())
+    }
+
+
+    console.log(isChecked)
 
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -54,6 +63,7 @@ export const Login = () => {
         }))
     }
 
+
     return (
         <main className="main bg-dark">
             <div className="dark-background">
@@ -75,7 +85,7 @@ export const Login = () => {
                             <input type="password" id="password" name="password" value={password} onChange={handlePasswordChange} />
                         </div>
                         <div className="input-remember">
-                            <input type="checkbox" id="remember-me" />
+                            <input type="checkbox" id="remember-me" onChange={handleCheckboxChange} />
                             <label htmlFor="remember-me">Remember me</label>
                         </div>
                         <button className="sign-in-button" onClick={onSubmit}>Sign In</button>

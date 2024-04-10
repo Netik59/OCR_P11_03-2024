@@ -10,6 +10,7 @@ export const User = () => {
     const token = localStorage.getItem('token')
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [userName, setUserName] = useState('');
+    console.log(userName)
 
 
     useEffect(() => {
@@ -38,7 +39,6 @@ export const User = () => {
     const handleUsernameChange = (e) => {
         setUserName(e.target.value)
     };
-
 
     const onSave = () => {
         dispatch(updateUserNameAsync({

@@ -1,7 +1,7 @@
 import { Feature } from "../../common/components/Feature";
-import icon_chat from '../../img/icon-chat.png';
-import icon_money from '../../img/icon-money.png'
-import icon_security from '../../img/icon-security.png'
+import icon_chat from '../../img/icon-chat.webp';
+import icon_money from '../../img/icon-money.webp'
+import icon_security from '../../img/icon-security.webp'
 
 export const Home = () => {
 

@@ -1,4 +1,4 @@
-import ErrorIllustration from '../../img/404.png'
+import ErrorIllustration from '../../img/404.webp'
 import { Link } from 'react-router-dom'
 
 
