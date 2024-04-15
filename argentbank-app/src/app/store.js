@@ -7,7 +7,6 @@ const state = {
         token: null,
         connected: false,
         userName: "",
-        isChecked: null,
     },
 }
 

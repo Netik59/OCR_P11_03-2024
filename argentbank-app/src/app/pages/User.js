@@ -11,21 +11,28 @@ export const User = () => {
     const token = localStorage.getItem('token')
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [userName, setUserName] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
     console.log(userName)
-
+    const authState = useSelector((state) => state.auth)
+    console.log(authState)
+    const userProfile = useSelector((state) => state.auth.userProfile);
+    console.log(userProfile)
 
     useEffect(() => {
         if (!token) {
             navigate("/sign-in");
-        } else {
+        }
+        else {
             dispatch(getUserProfileAsync())
         }
     }, [token, navigate, dispatch]);
 
+    useEffect(() => {
+        if (userProfile) {
+            setUserName(userProfile.userName);
+        }
+    }, [userProfile]);
 
-    const userProfile = useSelector((state) => state.auth.userProfile);
-
-    console.log(userProfile)
 
 
     const onClickEdit = () => {
@@ -42,10 +49,24 @@ export const User = () => {
     };
 
     const onSave = () => {
+
+        if (!validateUserName(userName)) {
+            setErrorMessage("Pseudo invalide");
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 5000);
+            return;
+        }
+
         dispatch(updateUserNameAsync({
             userName: userName
         }))
+        window.location.reload();
     }
+
+    const validateUserName = (userName) => {
+        return /^[a-zA-Z][a-zA-Z0-9_]{2,15}$/.test(userName);
+    };
 
     return (
         <main className="main bg-dark">
@@ -58,6 +79,11 @@ export const User = () => {
                     {isFormOpen && (
                         <div className="edit-name-content">
                             <p className="edit-title">Edit User info</p>
+                            {errorMessage && (
+                                <div className="error-message">
+                                    <span>{errorMessage}</span>
+                                </div>
+                            )}
                             <form className="input-wrapper">
                                 <div>
                                     <label htmlFor="username" className="edit-label">UserName:</label>

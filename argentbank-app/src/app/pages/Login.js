@@ -15,8 +15,6 @@ export const Login = () => {
     console.log(authState)
     const token = localStorage.getItem('token')
 
-    const isChecked = authState.isChecked
-
     useEffect(() => {
         if (token) {
             navigate("/user");
@@ -35,9 +33,6 @@ export const Login = () => {
     const handleCheckboxChange = () => {
         dispatch(authSlice.actions.toggleCheckbox())
     }
-
-
-    console.log(isChecked)
 
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

@@ -46,6 +46,7 @@ export const updateUserNameAsync = createAsyncThunk(
                 method: 'PUT',
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                    "Content-type": "application/json; charset=UTF-8",
                 },
                 body: JSON.stringify({ userName })
             });
@@ -91,7 +92,6 @@ export const authSlice = createSlice({
         token: localStorage.getItem('token') || null,
         connected: false,
         error: null,
-        isChecked: false,
         userProfile: JSON.parse(localStorage.getItem('userProfile')) || null
     },
     reducers: {
@@ -99,9 +99,6 @@ export const authSlice = createSlice({
             localStorage.removeItem('token');
             localStorage.removeItem('userProfile');
             return { token: null, connected: false, error: null, userProfile: null }
-        },
-        toggleCheckbox: (state) => {
-            state.isChecked = !state.isChecked;
         },
     },
     extraReducers: (builder) => {
