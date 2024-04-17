@@ -61,7 +61,6 @@ export const User = () => {
         dispatch(updateUserNameAsync({
             userName: userName
         }))
-        window.location.reload();
     }
 
     const validateUserName = (userName) => {

@@ -111,6 +111,7 @@ export const authSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(updateUserNameAsync.fulfilled, (state, action) => {
+                state.userProfile = action.payload.body
                 console.log("Changement effectué")
             })
             .addCase(updateUserNameAsync.rejected, (state, action) => {
